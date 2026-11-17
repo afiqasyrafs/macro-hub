@@ -1,25 +1,179 @@
 {
-  "meta": { "schema": 1 },
+  "meta": {
+    "schema": 1
+  },
   "indicators": [
-    { "id": "my-gdp", "indicator": "MY GDP", "category": "Macro", "horizon": "2026", "latest": "5.30", "previous": "4.5-5.0", "consensus": "4.60", "view": "Optimistic", "reasoning": "Upgraded 2026 GDP growth hinges on robust private consumption, investment, and resilient export diversification.", "updated": "2026-09-30" },
-    { "id": "my-cpi", "indicator": "MY CPI", "category": "Macro", "horizon": "2026", "latest": "1.90", "previous": "2.10", "consensus": "2.00", "view": "Neutral", "reasoning": "Subsidies mitigate energy cost pass-through, offsetting inflation pressures from disrupted US-Iran relations and supply shocks.", "updated": "2026-09-30" },
-    { "id": "usdmyr", "indicator": "USDMYR", "category": "FX", "horizon": "end-2026", "latest": "4.00", "previous": "3.95", "consensus": "4.02", "view": "Bullish", "reasoning": "Persistent current account surplus and trade inflows underpin ringgit's resilience despite Fed actions.", "updated": "2026-09-30" },
-    { "id": "usdcny", "indicator": "USDCNY", "category": "FX", "horizon": "end-2026", "latest": "6.75", "previous": "6.80", "consensus": "6.80", "view": "Bullish", "reasoning": "PBoC's policy shift endorsing yuan strength amid robust exports and narrowing US-China yield differentials.", "updated": "2026-09-30" },
-    { "id": "usdjpy", "indicator": "USDJPY", "category": "FX", "horizon": "end-2026", "latest": "154.00", "previous": "150.00", "consensus": "153.00", "view": "Bullish", "reasoning": "USDJPY pressured near-term by hawkish Fed repricing; long-term pullback expected as BoJ normalizes.", "updated": "2026-09-30" },
-    { "id": "mgs", "indicator": "MGS", "category": "Rates", "horizon": "end-2026", "latest": "3.88", "previous": "3.63", "consensus": "3.70", "view": "Bullish", "reasoning": "MGS yields rise driven by UST spillover and term premium adjustments pre-Budget 2027.", "updated": "2026-09-30" },
-    { "id": "ust", "indicator": "UST", "category": "Rates", "horizon": "end-2026", "latest": "4.80", "previous": "4.50", "consensus": "4.50", "view": "Bearish", "reasoning": "Long rates pressured by fiscal deficits and issuance, not mitigated by modest rate hikes.", "updated": "2026-09-30" },
-    { "id": "bnm", "indicator": "BNM", "category": "Central Banks", "horizon": "end-2026", "latest": "2.75", "previous": "2.75", "consensus": "2.75", "view": "Neutral", "reasoning": "BNM's delay in using imbalance language and election timing suggest a cautious rate hike path.", "updated": "2026-09-30" },
-    { "id": "fed", "indicator": "Fed", "category": "Central Banks", "horizon": "end-2026", "latest": "4.25", "previous": "3.75", "consensus": "4.50", "view": "Neutral", "reasoning": "Fed's rate path reflects heightened inflation concerns, driving continued monetary tightening expectations.", "updated": "2026-09-30" },
-    { "id": "boj", "indicator": "BoJ", "category": "Central Banks", "horizon": "end-2026", "latest": "1.25", "previous": "1.00", "consensus": "1.25", "view": "Hawkish", "reasoning": "BoJ likely holds through year-end amid oil-driven growth drag and board's widened dissent.", "updated": "2026-09-30" }
+    {
+      "id": "my-gdp",
+      "indicator": "MY GDP",
+      "category": "Macro",
+      "horizon": "2026",
+      "latest": "5.30",
+      "previous": "4.5-5.0",
+      "consensus": "4.60",
+      "view": "Optimistic",
+      "reasoning": "Upgraded 2026 GDP growth hinges on robust private consumption, investment, and resilient export diversification.",
+      "updated": "2026-09-30"
+    },
+    {
+      "id": "my-cpi",
+      "indicator": "MY CPI",
+      "category": "Macro",
+      "horizon": "2026",
+      "latest": "1.90",
+      "previous": "2.10",
+      "consensus": "2.00",
+      "view": "Neutral",
+      "reasoning": "Subsidies mitigate energy cost pass-through, offsetting inflation pressures from disrupted US-Iran relations and supply shocks.",
+      "updated": "2026-09-30"
+    },
+    {
+      "id": "usdmyr",
+      "indicator": "USDMYR",
+      "category": "FX",
+      "horizon": "end-2026",
+      "latest": "4.00",
+      "previous": "3.95",
+      "consensus": "4.02",
+      "view": "Bullish",
+      "reasoning": "Persistent current account surplus and trade inflows underpin ringgit's resilience despite Fed actions.",
+      "updated": "2026-09-30"
+    },
+    {
+      "id": "usdcny",
+      "indicator": "USDCNY",
+      "category": "FX",
+      "horizon": "end-2026",
+      "latest": "6.75",
+      "previous": "6.80",
+      "consensus": "6.80",
+      "view": "Bullish",
+      "reasoning": "PBoC's policy shift endorsing yuan strength amid robust exports and narrowing US-China yield differentials.",
+      "updated": "2026-09-30"
+    },
+    {
+      "id": "usdjpy",
+      "indicator": "USDJPY",
+      "category": "FX",
+      "horizon": "end-2026",
+      "latest": "154.00",
+      "previous": "150.00",
+      "consensus": "153.00",
+      "view": "Bullish",
+      "reasoning": "USDJPY pressured near-term by hawkish Fed repricing; long-term pullback expected as BoJ normalizes.",
+      "updated": "2026-09-30"
+    },
+    {
+      "id": "mgs",
+      "indicator": "MGS",
+      "category": "Rates",
+      "horizon": "end-2026",
+      "latest": "3.88",
+      "previous": "3.63",
+      "consensus": "3.70",
+      "view": "Bullish",
+      "reasoning": "MGS yields rise driven by UST spillover and term premium adjustments pre-Budget 2027.",
+      "updated": "2026-09-30"
+    },
+    {
+      "id": "ust",
+      "indicator": "UST",
+      "category": "Rates",
+      "horizon": "end-2026",
+      "latest": "4.80",
+      "previous": "4.50",
+      "consensus": "4.50",
+      "view": "Bearish",
+      "reasoning": "Long rates pressured by fiscal deficits and issuance, not mitigated by modest rate hikes.",
+      "updated": "2026-09-30"
+    },
+    {
+      "id": "bnm",
+      "indicator": "BNM",
+      "category": "Central Banks",
+      "horizon": "end-2026",
+      "latest": "2.75",
+      "previous": "2.75",
+      "consensus": "2.75",
+      "view": "Neutral",
+      "reasoning": "BNM's delay in using imbalance language and election timing suggest a cautious rate hike path.",
+      "updated": "2026-09-30"
+    },
+    {
+      "id": "fed",
+      "indicator": "Fed",
+      "category": "Central Banks",
+      "horizon": "end-2026",
+      "latest": "4.25",
+      "previous": "3.75",
+      "consensus": "4.50",
+      "view": "Neutral",
+      "reasoning": "Fed's rate path reflects heightened inflation concerns, driving continued monetary tightening expectations.",
+      "updated": "2026-09-30"
+    },
+    {
+      "id": "boj",
+      "indicator": "BoJ",
+      "category": "Central Banks",
+      "horizon": "end-2026",
+      "latest": "1.25",
+      "previous": "1.00",
+      "consensus": "1.25",
+      "view": "Hawkish",
+      "reasoning": "BoJ likely holds through year-end amid oil-driven growth drag and board's widened dissent.",
+      "updated": "2026-09-30"
+    }
   ],
   "reports": [
-    { "title": "BNM: Taking Back the Insurance (30 September 2026)", "link": "https://www.kenanga.com.my/wp-content/uploads/2026/09/EV_BNM_Taking-Back-the-Insurance_260930-Kenanga.pdf", "category": "Central Banks", "date": "2026-09-30" },
-    { "title": "Ringgit Weekly (25 September 2026)", "link": "https://www.kenanga.com.my/wp-content/uploads/2026/09/EV_Ringgit-Weekly-Outlook_260925-Kenanga.pdf", "category": "FX", "date": "2026-09-25" },
-    { "title": "Bond Weekly (25 September 2026)", "link": "https://www.kenanga.com.my/wp-content/uploads/2026/09/EV_Bond-Market-Weekly-Outlook_260925-Kenanga.pdf", "category": "Rates", "date": "2026-09-25" },
-    { "title": "MY CPI (Aug-26)", "link": "https://www.kenanga.com.my/wp-content/uploads/2026/09/EV_CPI_Aug26_260921-Kenanga.pdf", "category": "Macro", "date": "2026-09-21" },
-    { "title": "BoJ Monetary Policy Decision (17-18 September)", "link": "https://www.kenanga.com.my/wp-content/uploads/2026/09/EV_Bank-of-Japan_MPM6_260921-Kenanga.pdf", "category": "Central Banks", "date": "2026-09-21" },
-    { "title": "US FOMC Meeting (15 – 16 September)", "link": "https://www.kenanga.com.my/wp-content/uploads/2026/09/EV_US-FOMC-Meeting_260917-Kenanga.pdf", "category": "Central Banks", "date": "2026-09-17" },
-    { "title": "MY GDP (2Q26)", "link": "https://www.kenanga.com.my/wp-content/uploads/2026/08/EV_Malaysia-2Q26-GDP_260817-Kenanga.pdf", "category": "Macro", "date": "2026-08-17" }
+    {
+      "slot": "ringgit-weekly",
+      "title": "Ringgit Weekly (16 November 2026)",
+      "link": "https://www.kenanga.com.my/wp-content/uploads/2026/11/EV_Ringgit-Weekly-Outlook_261116-Kenanga.pdf",
+      "category": "FX",
+      "date": "2026-11-16"
+    },
+    {
+      "slot": "bond-weekly",
+      "title": "Bond Weekly (16 November 2026)",
+      "link": "https://www.kenanga.com.my/wp-content/uploads/2026/11/EV_Bond_Market_Weekly_Outlook_261116-Kenanga.pdf",
+      "category": "Rates",
+      "date": "2026-11-16"
+    },
+    {
+      "slot": "bnm",
+      "title": "BNM MPC Meeting (6 November 2026)",
+      "link": "https://www.kenanga.com.my/wp-content/uploads/2026/11/EV_BNM_MPC6_261106-Kenanga.pdf",
+      "category": "Central Banks",
+      "date": "2026-11-06"
+    },
+    {
+      "slot": "boj",
+      "title": "BoJ Monetary Policy Decision (30 October 2026)",
+      "link": "https://www.kenanga.com.my/wp-content/uploads/2026/10/EV_Bank-of-Japan_MPM7_261030-Kenanga.pdf",
+      "category": "Central Banks",
+      "date": "2026-10-30"
+    },
+    {
+      "slot": "fed",
+      "title": "US FOMC Meeting (29 October 2026)",
+      "link": "https://www.kenanga.com.my/wp-content/uploads/2026/10/EV_US-FOMC-Meeting_261029-Kenanga.pdf",
+      "category": "Central Banks",
+      "date": "2026-10-29"
+    },
+    {
+      "slot": "my-cpi",
+      "title": "MY CPI (Sep-26)",
+      "link": "https://www.kenanga.com.my/wp-content/uploads/2026/10/EV_CPI_Sep26_261020-Kenanga.pdf",
+      "category": "Macro",
+      "date": "2026-10-20"
+    },
+    {
+      "slot": "my-gdp",
+      "title": "MY GDP (3Q26 Advance)",
+      "link": "https://www.kenanga.com.my/wp-content/uploads/2026/10/EV_MY_3Q26_Advance_GDP_261016-Kenanga.pdf",
+      "category": "Macro",
+      "date": "2026-10-16"
+    }
   ],
   "bnm": null
 }

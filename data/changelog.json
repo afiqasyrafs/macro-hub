@@ -1,1 +1,58 @@
-[]
+[
+  {
+    "date": "2026-11-17",
+    "source": "Kenanga Market Insights feed (report links only)",
+    "target": "report",
+    "field": "ringgit-weekly",
+    "from": "Ringgit Weekly (25 September 2026)",
+    "to": "Ringgit Weekly (16 November 2026)"
+  },
+  {
+    "date": "2026-11-17",
+    "source": "Kenanga Market Insights feed (report links only)",
+    "target": "report",
+    "field": "bond-weekly",
+    "from": "Bond Weekly (25 September 2026)",
+    "to": "Bond Weekly (16 November 2026)"
+  },
+  {
+    "date": "2026-11-17",
+    "source": "Kenanga Market Insights feed (report links only)",
+    "target": "report",
+    "field": "bnm",
+    "from": "BNM: Taking Back the Insurance (30 September 2026)",
+    "to": "BNM MPC Meeting (6 November 2026)"
+  },
+  {
+    "date": "2026-11-17",
+    "source": "Kenanga Market Insights feed (report links only)",
+    "target": "report",
+    "field": "boj",
+    "from": "BoJ Monetary Policy Decision (17-18 September)",
+    "to": "BoJ Monetary Policy Decision (30 October 2026)"
+  },
+  {
+    "date": "2026-11-17",
+    "source": "Kenanga Market Insights feed (report links only)",
+    "target": "report",
+    "field": "fed",
+    "from": "US FOMC Meeting (15 – 16 September)",
+    "to": "US FOMC Meeting (29 October 2026)"
+  },
+  {
+    "date": "2026-11-17",
+    "source": "Kenanga Market Insights feed (report links only)",
+    "target": "report",
+    "field": "my-cpi",
+    "from": "MY CPI (Aug-26)",
+    "to": "MY CPI (Sep-26)"
+  },
+  {
+    "date": "2026-11-17",
+    "source": "Kenanga Market Insights feed (report links only)",
+    "target": "report",
+    "field": "my-gdp",
+    "from": "MY GDP (2Q26)",
+    "to": "MY GDP (3Q26 Advance)"
+  }
+]
