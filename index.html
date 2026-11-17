@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Macro Hub</title>
+<meta name="description" content="Kenanga Investment Bank macro, FX and rates house forecasts.">
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --card:#151515;
+    --card-border:#242424;
+    --red:#e8112d;
+    --text:#f2f2f2;
+    --muted:#8a8a8a;
+    --green:#22c55e;
+    --amber:#eab308;
+    --red-bias:#ef4444;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1200px;margin:0 auto;padding:40px 28px 80px;}
+
+  /* Header */
+  .logo{height:38px;width:auto;display:block;margin:0 0 22px;}
+  h1{font-size:2rem;font-weight:800;margin:0 0 4px;}
+  .subtitle{color:var(--muted);font-size:.95rem;margin:0 0 18px;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:18px;align-items:center;color:var(--muted);font-size:.85rem;margin-bottom:26px;}
+  .views{display:inline-flex;align-items:center;gap:4px;}
+  .views strong{color:var(--text);font-weight:700;}
+
+  /* Filters */
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px;}
+  .chip{
+    background:transparent;color:var(--muted);border:1px solid var(--card-border);
+    border-radius:999px;padding:7px 16px;font-size:.85rem;cursor:pointer;
+    transition:all .15s ease;font-family:inherit;
+  }
+  .chip:hover{color:var(--text);border-color:#3a3a3a;}
+  .chip.active{background:var(--red);color:#fff;border-color:var(--red);}
+  .chip:focus-visible{outline:2px solid var(--red);outline-offset:2px;}
+
+  /* Sections */
+  .section-title{color:var(--red);font-weight:800;font-size:.9rem;letter-spacing:1px;text-transform:uppercase;margin:0 0 16px;}
+  .section{margin-bottom:40px;}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+
+  /* Cards */
+  .card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:22px 24px;}
+  .card-head{display:flex;align-items:baseline;gap:8px;margin-bottom:10px;}
+  .card-name{font-weight:600;font-size:1rem;}
+  .card-horizon{color:var(--muted);font-size:.82rem;}
+  .value{font-size:2.3rem;font-weight:800;line-height:1.1;margin:2px 0 8px;}
+  .cons{color:var(--muted);font-size:.9rem;margin-bottom:6px;}
+  .bias{font-weight:700;font-size:1rem;margin-bottom:14px;}
+  .bias.pos{color:var(--green);}
+  .bias.neg{color:var(--red-bias);}
+  .bias.neu{color:var(--amber);}
+  .reasoning{color:#cfcfcf;font-size:.92rem;line-height:1.5;}
+
+  /* BNM Monetary Policy Monitor */
+  .bnm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:20px;}
+  .bnm-grid .value{font-size:1.9rem;margin-bottom:6px;}
+  .bnm-grid .value.pos{color:var(--green);}
+  .bnm-grid .value.neg{color:var(--red-bias);}
+  .bnm-grid .value.neu{color:var(--amber);}
+  .bnm-wide{margin-bottom:20px;}
+  .prob-bar{display:flex;gap:3px;height:14px;border-radius:999px;overflow:hidden;margin:6px 0 18px;background:#1d1d1d;}
+  .prob-seg{height:100%;min-width:0;}
+  .prob-seg.hike{background:var(--green);}
+  .prob-seg.hold{background:var(--amber);}
+  .prob-seg.cut{background:var(--red-bias);}
+  .prob-legend{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .prob-item .lbl{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.85rem;margin-bottom:4px;}
+  .prob-item .dot{width:9px;height:9px;border-radius:50%;flex:none;}
+  .prob-item .pct{font-size:1.6rem;font-weight:800;line-height:1.1;}
+  .prob-item .chg{color:var(--muted);font-size:.82rem;margin-top:3px;}
+  .bnm-note{color:var(--muted);font-size:.8rem;margin-top:16px;}
+  .table-scroll{overflow-x:auto;}
+  table.inputs{width:100%;border-collapse:collapse;font-size:.9rem;}
+  table.inputs th{color:var(--muted);font-weight:600;text-align:left;font-size:.78rem;letter-spacing:.5px;text-transform:uppercase;padding:0 14px 10px 0;white-space:nowrap;}
+  table.inputs td{padding:10px 14px 10px 0;border-top:1px solid var(--card-border);color:#cfcfcf;vertical-align:top;}
+  table.inputs td:first-child{color:var(--text);font-weight:600;white-space:nowrap;}
+
+  /* Reports */
+  .report{
+    background:var(--card);border:1px solid var(--card-border);border-radius:12px;
+    padding:16px 22px;margin-bottom:12px;text-decoration:none;display:block;transition:border-color .15s ease;
+  }
+  .report:hover{border-color:#3a3a3a;}
+  .report-title{color:var(--text);font-weight:700;font-size:1rem;margin-bottom:4px;}
+  .report-meta{color:var(--muted);font-size:.82rem;}
+
+  .empty{color:var(--muted);font-size:.9rem;padding:8px 0;}
+  .error{color:var(--red-bias);font-size:.85rem;margin-bottom:20px;}
+
+  @media (max-width:900px){.grid,.bnm-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:600px){.grid{grid-template-columns:1fr;}.bnm-grid{gap:12px;}.bnm-grid .card{padding:16px 16px;}.bnm-grid .value{font-size:1.5rem;}.prob-item .pct{font-size:1.3rem;}.wrap{padding:28px 18px 60px;}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <img class="logo" src="assets/logo.png" alt="Kenanga" onerror="this.style.display='none'">
+  <h1>Macro Hub</h1>
+  <div class="subtitle">Kenanga Investment Bank &nbsp;&middot;&nbsp; Macro Dashboard</div>
+  <div class="meta-row">
+    <span id="lastUpdated">Last Updated: &mdash;</span>
+  </div>
+
+  <div id="errors"></div>
+  <div class="filters" id="filters"></div>
+  <div id="sections"><div class="empty">Loading&hellip;</div></div>
+  <div id="bnmSection"></div>
+
+  <div class="section" id="reportsSection">
+    <div class="section-title">Reports</div>
+    <div id="reportsList"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// CATEGORY MODEL
+// "Fixed Income" in the data maps to "Rates" via ALIASES.
+// ============================================================
+const CATEGORIES = ["Macro", "FX", "Rates", "Central Banks"];
+const ALIASES = { "fixed income": "Rates", "rates": "Rates", "fi": "Rates" };
+const BNM_FILTER = "BNM Monitor";
+
+function normCat(c){
+  if(!c) return "";
+  const key = String(c).trim().toLowerCase();
+  if(ALIASES[key]) return ALIASES[key];
+  const hit = CATEGORIES.find(x => x.toLowerCase() === key);
+  return hit || String(c).trim();
+}
+
+// ============================================================
+// STATE + RENDER
+// ============================================================
+let macroData = [];
+let reportData = [];
+let bnmData = null;
+let activeFilter = "All";
+let dataLoaded = false;
+
+function biasClass(view){
+  const v = String(view||"").trim().toLowerCase();
+  if(["bullish","optimistic","hawkish"].includes(v)) return "pos";
+  if(["bearish","pessimistic","dovish"].includes(v)) return "neg";
+  return "neu";
+}
+
+function esc(s){
+  return String(s==null?"":s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+
+// Delta versus consensus. For a text range like "4.50-5.00", parseFloat takes the lower bound.
+function calcDelta(latest, cons){
+  const num = v => parseFloat(String(v).replace(/,/g, ""));
+  const l = num(latest), c = num(cons);
+  if(isNaN(l) || isNaN(c)) return "";
+  const diff = (l - c).toFixed(2);
+  return parseFloat(diff) > 0 ? "+" + diff : diff;
+}
+
+function isoToDate(iso){
+  const p = String(iso||"").split("-").map(Number);
+  if(p.length !== 3 || p.some(isNaN)) return null;
+  return new Date(p[0], p[1]-1, p[2]);
+}
+function fmtDate(iso){ const d = isoToDate(iso); return d ? d.toLocaleDateString("en-GB") : String(iso||""); }
+function fmtDateLong(iso){ const d = isoToDate(iso); return d ? d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}) : String(iso||""); }
+
+function renderFilters(){
+  const el = document.getElementById("filters");
+  const opts = ["All", ...CATEGORIES];
+  if(bnmData) opts.push(BNM_FILTER);
+  el.innerHTML = opts.map(o =>
+    `<button class="chip ${o===activeFilter?'active':''}" data-cat="${esc(o)}">${esc(o)}</button>`
+  ).join("");
+  el.querySelectorAll(".chip").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      activeFilter = btn.dataset.cat;
+      renderAll();
+    });
+  });
+}
+
+function cardHTML(row){
+  const d = calcDelta(row.latest, row.consensus);
+  const delta = d ? ` (${esc(d)})` : "";
+  const horizon = row.horizon ? `<span class="card-horizon">(${esc(row.horizon)})</span>` : "";
+  return `
+    <div class="card">
+      <div class="card-head"><span class="card-name">${esc(row.indicator)}</span>${horizon}</div>
+      <div class="value">${esc(row.latest)}</div>
+      <div class="cons">Cons: ${esc(row.consensus)}${delta}</div>
+      <div class="bias ${biasClass(row.view)}">${esc(row.view)}</div>
+      <div class="reasoning">${esc(row.reasoning)}</div>
+    </div>`;
+}
+
+function renderSections(){
+  const el = document.getElementById("sections");
+  if(activeFilter === BNM_FILTER){ el.innerHTML = ""; return; }
+  const cats = activeFilter === "All" ? CATEGORIES : [activeFilter];
+  let html = "";
+  cats.forEach(cat=>{
+    const rows = macroData.filter(r => normCat(r.category) === cat);
+    if(!rows.length) return;
+    html += `<div class="section">
+      <div class="section-title">${esc(cat)}</div>
+      <div class="grid">${rows.map(cardHTML).join("")}</div>
+    </div>`;
+  });
+  el.innerHTML = html || `<div class="empty">No indicators in this category yet.</div>`;
+}
+
+// ============================================================
+// BNM MONETARY POLICY MONITOR
+// Shown under All, Central Banks and its own chip.
+// ============================================================
+function callClass(text){
+  const v = String(text||"").toLowerCase();
+  if(v.includes("hike") || v.includes("hawk")) return "pos";
+  if(v.includes("cut") || v.includes("dov")) return "neg";
+  return "neu";
+}
+
+function fmtPct(n){
+  const x = Math.round(Number(n) * 10) / 10;
+  return (x % 1 === 0 ? x.toFixed(0) : x.toFixed(1)) + "%";
+}
+
+function daysTo(iso){
+  if(!iso) return "";
+  const p = iso.split("-").map(Number);
+  if(p.length !== 3 || p.some(isNaN)) return "";
+  const target = new Date(p[0], p[1]-1, p[2]);
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const d = Math.round((target - today) / 86400000);
+  if(d > 1) return `In ${d} days`;
+  if(d === 1) return "Tomorrow";
+  if(d === 0) return "Today";
+  return "Awaiting next date";
+}
+
+function statCard(label, value, sub, cls){
+  return `<div class="card">
+    <div class="card-head"><span class="card-name">${esc(label)}</span></div>
+    <div class="value ${cls||""}">${esc(value || "—")}</div>
+    <div class="cons">${esc(sub || "")}</div>
+  </div>`;
+}
+
+function probHTML(b){
+  if(!b.probs) return "";
+  const order = [["hike","Hike","var(--green)"],["hold","Hold","var(--amber)"],["cut","Cut","var(--red-bias)"]];
+  const bar = order.map(([k]) => {
+    const w = Math.max(0, Number(b.probs[k]) || 0);
+    return w > 0 ? `<div class="prob-seg ${k}" style="flex:${w} 1 0"></div>` : "";
+  }).join("");
+  const legend = order.map(([k,label,colour]) => {
+    let chg = "";
+    if(b.prev){
+      const d = Math.round(((Number(b.probs[k])||0) - (Number(b.prev[k])||0)) * 10) / 10;
+      chg = d === 0 ? "Unchanged" : `${d > 0 ? "+" : ""}${d} pts`;
+    }
+    return `<div class="prob-item">
+      <div class="lbl"><span class="dot" style="background:${colour}"></span>${label}</div>
+      <div class="pct">${fmtPct(b.probs[k])}</div>
+      ${chg ? `<div class="chg">${esc(chg)}</div>` : ""}
+    </div>`;
+  }).join("");
+  const notes = [];
+  if(b.modelAsOf) notes.push("Model run: " + fmtDate(b.modelAsOf));
+  if(b.prev && b.prev.date) notes.push("Change versus " + fmtDate(b.prev.date));
+  return `<div class="card bnm-wide">
+    <div class="card-head"><span class="card-name">Next-move probability</span><span class="card-horizon">(in-house model)</span></div>
+    <div class="prob-bar" role="img" aria-label="Hike ${fmtPct(b.probs.hike)}, hold ${fmtPct(b.probs.hold)}, cut ${fmtPct(b.probs.cut)}">${bar}</div>
+    <div class="prob-legend">${legend}</div>
+    ${b.commentary ? `<div class="reasoning" style="margin-top:18px">${esc(b.commentary)}</div>` : ""}
+    ${notes.length ? `<div class="bnm-note">${esc(notes.join("  ·  "))}</div>` : ""}
+  </div>`;
+}
+
+function inputsHTML(b){
+  const t = b.inputs || {};
+  if(!t.rows || !t.rows.length) return "";
+  return `<div class="card bnm-wide">
+    <div class="card-head"><span class="card-name">Model inputs</span></div>
+    <div class="table-scroll"><table class="inputs">
+      <thead><tr>${t.headers.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead>
+      <tbody>${t.rows.map(r => `<tr>${r.map(c => `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody>
+    </table></div>
+  </div>`;
+}
+
+function renderBnm(){
+  const el = document.getElementById("bnmSection");
+  const show = bnmData && ["All", "Central Banks", BNM_FILTER].includes(activeFilter);
+  if(!show){ el.innerHTML = ""; return; }
+  const b = bnmData;
+  el.innerHTML = `<div class="section">
+    <div class="section-title">BNM Monetary Policy Monitor</div>
+    <div class="bnm-grid">
+      ${statCard("Current OPR", b.currentOPR, "Overnight Policy Rate")}
+      ${statCard("Next MPC", fmtDateLong(b.nextMPC), daysTo(b.nextMPC))}
+      ${statCard("House call", b.houseCall, "Next meeting", callClass(b.houseCall))}
+      ${statCard("Taylor rule", b.taylorRate, "Implied policy rate")}
+    </div>
+    ${probHTML(b)}
+    ${inputsHTML(b)}
+  </div>`;
+}
+
+function renderReports(){
+  const list = document.getElementById("reportsList");
+  const f = activeFilter === BNM_FILTER ? "Central Banks" : activeFilter;
+  const rows = f === "All"
+    ? reportData
+    : reportData.filter(r => normCat(r.category) === f);
+  if(!rows.length){ list.innerHTML = `<div class="empty">No reports in this category yet.</div>`; return; }
+  list.innerHTML = rows.map(r=>{
+    const cat = normCat(r.category) || r.category || "";
+    const hasLink = r.link && r.link !== "#";
+    const href = hasLink ? esc(r.link) : "#";
+    return `<a class="report" href="${href}" data-title="${esc(r.title)}" ${hasLink?'target="_blank" rel="noopener"':""}>
+      <div class="report-title">${esc(r.title)}</div>
+      <div class="report-meta">${esc(cat)} &nbsp;&middot;&nbsp; ${esc(fmtDate(r.date))}</div>
+    </a>`;
+  }).join("");
+}
+
+function renderAll(){
+  renderFilters();
+  if(!dataLoaded) return;
+  renderSections();
+  renderBnm();
+  renderReports();
+}
+
+function setLastUpdated(){
+  const days = macroData.map(r => r.updated).filter(Boolean).sort();
+  if(days.length){
+    document.getElementById("lastUpdated").textContent = "Last Updated: " + fmtDate(days[days.length-1]);
+  }
+}
+
+// ============================================================
+// DATA LOADING
+// Everything on this page comes from data/dashboard.json.
+// To change a number, edit that file (see CLAUDE.md), never this page.
+// ============================================================
+function fail(msg){
+  document.getElementById("sections").innerHTML = '<div class="empty">' + esc(msg) + '</div>';
+}
+
+function loadData(){
+  fetch("data/dashboard.json?t=" + Date.now(), { cache: "no-store" })
+    .then(r => { if(!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+    .then(res => {
+      if(!res || !Array.isArray(res.indicators)) throw new Error("unexpected data format");
+      macroData = res.indicators;
+      reportData = Array.isArray(res.reports) ? res.reports : [];
+      bnmData = (res.bnm && res.bnm.probs) ? res.bnm : null;
+      dataLoaded = true;
+      setLastUpdated();
+      renderAll();
+    })
+    .catch(err => fail("Could not load data. Please refresh in a moment. (" + (err && err.message ? err.message : "error") + ")"));
+}
+
+renderFilters();
+loadData();
+</script>
+</body>
+</html>
