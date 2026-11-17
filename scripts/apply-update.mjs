@@ -12,7 +12,9 @@
 //   "indicators": [ { "id": "usdmyr", "set": { "latest": "4.05", "view": "Bullish", "reasoning": "..." } } ],
 //   "addIndicators": [ { full indicator object without 'updated' } ],
 //   "removeIndicators": [ "id" ],
-//   "addReports": [ { "title": "...", "link": "https://...", "category": "FX", "date": "2026-11-13" } ],
+//   "addReports": [ { "slot": "ringgit-weekly", "title": "...", "link": "https://www.kenanga.com.my/...", "category": "FX", "date": "2026-11-13" } ],
+//       a report with a slot replaces the report currently in that slot (only if it is newer)
+//   "markProcessed": [ "https://www.kenanga.com.my/...pdf" ],   report PDFs now fully handled
 //   "bnm": { any BNM fields; new probs automatically move the old ones to prev }
 // }
 //
@@ -20,7 +22,7 @@
 // value to 'previous'; a numeric move above MAX_MOVE needs --force; the result must pass
 // validation or nothing is written.
 import { readFileSync, writeFileSync } from "node:fs";
-import { DATA, LOG, load, validate, num, isIsoDate, todayKL } from "./lib.mjs";
+import { DATA, LOG, SEEN, load, validate, num, isIsoDate, todayKL } from "./lib.mjs";
 
 const MAX_MOVE = 0.25; // 25% change in latest or consensus triggers the guard
 const SETTABLE = ["indicator", "category", "horizon", "latest", "consensus", "view", "reasoning"];
@@ -81,8 +83,15 @@ for (const id of patch.removeIndicators || []) {
 
 for (const r of patch.addReports || []) {
   if (data.reports.some(x => x.link === r.link)) { console.log(`skip: report already listed (${r.title})`); continue; }
-  data.reports.push(r);
-  rec("report", "added", "", r.title);
+  const i = r.slot ? data.reports.findIndex(x => x.slot === r.slot) : -1;
+  if (i > -1) {
+    if (data.reports[i].date > r.date) { console.log(`skip: slot '${r.slot}' already holds a newer report`); continue; }
+    rec("report", r.slot, data.reports[i].title, r.title);
+    data.reports[i] = r;
+  } else {
+    data.reports.push(r);
+    rec("report", "added", "", r.title);
+  }
 }
 data.reports.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0)); // newest first
 
@@ -100,7 +109,22 @@ if (patch.bnm) {
   data.bnm = next;
 }
 
-if (!changes.length) { console.log("No changes: the dashboard already matches this patch."); process.exit(0); }
+const seen = load(SEEN);
+const mark = (patch.markProcessed || []).filter(u => !seen.processed.includes(u));
+if (mark.some(u => typeof u !== "string" || !u.startsWith("https://www.kenanga.com.my/"))) die("markProcessed: every entry must be a kenanga.com.my URL");
+const saveSeen = () => {
+  if (!mark.length) return;
+  seen.processed = seen.processed.concat(mark);
+  seen.pending = seen.pending.filter(u => !mark.includes(u));
+  writeFileSync(SEEN, JSON.stringify(seen, null, 2) + "\n");
+  console.log(`Marked ${mark.length} report(s) as processed.`);
+};
+
+if (!changes.length) {
+  console.log("No dashboard changes from this patch.");
+  if (!dry) saveSeen();
+  process.exit(0);
+}
 
 const show = v => (typeof v === "object" ? JSON.stringify(v) : String(v));
 const clip = s => (s.length > 60 ? s.slice(0, 57) + "..." : s);
@@ -115,4 +139,5 @@ if (errors.length) { errors.forEach(e => console.error("ERROR  " + e)); die("res
 if (dry) { console.log("\nDry run only. Nothing written."); process.exit(0); }
 writeFileSync(DATA, JSON.stringify(data, null, 2) + "\n");
 writeFileSync(LOG, JSON.stringify(log.concat(changes), null, 2) + "\n");
+saveSeen();
 console.log(`\nApplied ${changes.length} change(s). Run: node scripts/validate.mjs`);

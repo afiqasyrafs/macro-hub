@@ -3,6 +3,8 @@ import { readFileSync } from "node:fs";
 
 export const DATA = new URL("../data/dashboard.json", import.meta.url);
 export const LOG = new URL("../data/changelog.json", import.meta.url);
+export const SEEN = new URL("../data/processed.json", import.meta.url);
+export const SLOTS = ["ringgit-weekly", "bond-weekly", "my-cpi", "my-gdp", "bnm", "fed", "boj"];
 
 export const CATEGORIES = ["Macro", "FX", "Rates", "Central Banks"];
 export const VIEWS = ["Bullish", "Bearish", "Optimistic", "Pessimistic", "Hawkish", "Dovish", "Neutral"];
@@ -66,6 +68,7 @@ export function validate(data) {
   });
 
   const links = new Set();
+  const slots = new Set();
   (data.reports || []).forEach((r, i) => {
     const tag = `reports[${i}]`;
     if (!r || typeof r !== "object") return E(`${tag}: not an object`);
@@ -75,6 +78,12 @@ export function validate(data) {
     if (isStr(r.link)) { if (links.has(r.link)) E(`${tag}: duplicate link`); links.add(r.link); }
     if (!isIsoDate(r.date)) E(`${tag}: date must be YYYY-MM-DD`);
     else if (r.date > today) E(`${tag}: date ${r.date} is in the future`);
+    if (r.slot !== undefined) {
+      if (!SLOTS.includes(r.slot)) E(`${tag}: slot '${r.slot}' not in ${SLOTS.join(", ")}`);
+      if (slots.has(r.slot)) E(`${tag}: slot '${r.slot}' used twice`);
+      slots.add(r.slot);
+    }
+    if (isStr(r.link) && !r.link.startsWith("https://www.kenanga.com.my/")) E(`${tag}: link must be on www.kenanga.com.my`);
   });
 
   const b = data.bnm;
